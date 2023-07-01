@@ -10,7 +10,7 @@ context('Files', () => {
 
     // load example.json fixture file and store
     // in the test context object
-    cy.fixture('example.json').as('example')
+    cy.fixture('example.json').as('example') 
   })
 
   it('cy.fixture() - load a fixture', () => {
@@ -74,12 +74,12 @@ context('Files', () => {
     // and formatted into text.
     cy.writeFile('cypress/fixtures/profile.json', {
       id: 8739,
-      name: 'Jane',
+      name: 'Josephine',
       email: 'jane@example.com',
     })
 
     cy.fixture('profile').should((profile) => {
-      expect(profile.name).to.eq('Jane')
+      expect(profile.name).to.eq('Josephine')
     })
   })
 })
