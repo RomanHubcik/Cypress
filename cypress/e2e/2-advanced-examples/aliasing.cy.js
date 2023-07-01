@@ -15,10 +15,17 @@ context('Aliasing', () => {
     cy.get('.as-table').find('tbody>tr')
       .first().find('td').first()
       .find('button').as('firstBtn')
+    
+    cy.get('.as-table').find('tbody>tr')
+      .first().find('td').last()
+      .find('button').as('secondBtn')
 
     // when we reference the alias, we place an
     // @ in front of its name
     cy.get('@firstBtn').click()
+      .wait(4000)
+    cy.get('@secondBtn').click()
+      .wait(4000)
 
     cy.get('@firstBtn')
       .should('have.class', 'btn-success')

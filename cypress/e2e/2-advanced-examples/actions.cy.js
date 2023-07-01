@@ -9,8 +9,15 @@ context('Actions', () => {
 
   it('.type() - type into a DOM element', () => {
     // https://on.cypress.io/type
-    cy.get('.action-email')
+    cy.get('.action-email') // class="form control action email"
       .type('fake@email.com').should('have.value', 'fake@email.com')
+      .type('{selectall}{backspace}') // clear field simulating keyboard
+
+    // another way of selecting the same element
+    cy.get('#email1') // input id="email1"
+      .type('email@element.byid').should('have.value', 'email@element.byid')
+      .clear()  // function for clearing the form
+      .should('have.value', '')
 
       // .type() with special character sequences
       .type('{leftarrow}{rightarrow}{uparrow}{downarrow}')
@@ -29,14 +36,19 @@ context('Actions', () => {
     cy.get('.action-disabled')
       // Ignore error checking prior to type
       // like whether the input is visible or disabled
-      .type('disabled error checking', { force: true })
+      .type('disabled error checking', { force: true }, { delay: 100 }) // forced true, written slow
       .should('have.value', 'disabled error checking')
   })
 
   it('.focus() - focus on a DOM element', () => {
     // https://on.cypress.io/focus
     cy.get('.action-focus').focus()
-      .should('have.class', 'focus')
+      .should('have.class', 'focus') // or can be used "focus" only (its class="form-control action-focus focus" in html)
+      .prev().should('have.attr', 'style', 'color: orange;') // previous element (sibling) should have orange color
+
+    // or by using id instead of class
+    cy.get('#password1').focus()
+      .should('have.id', 'password1')
       .prev().should('have.attr', 'style', 'color: orange;')
   })
 
@@ -59,9 +71,14 @@ context('Actions', () => {
     // https://on.cypress.io/submit
     cy.get('.action-form')
       .find('[type="text"]').type('HALFOFF')
-
     cy.get('.action-form').submit()
       .next().should('contain', 'Your form has been submitted!')
+
+    // another way
+    cy.get('.action-form')
+    .find('[type="text"]').clear()  // clear previous state
+    cy.get('#couponCode1') // find element using id
+      .type('filling the formular')
   })
 
   it('.click() - click on a DOM element', () => {
@@ -109,7 +126,7 @@ context('Actions', () => {
     cy.get('.action-labels>.label').click({ multiple: true })
 
     // Ignore error checking prior to clicking
-    cy.get('.action-opacity>.btn').click({ force: true })
+    cy.get('.action-opacity>.btn-lg').click({ force: true }) // works with .btn, .btn-primary, btn-lg (mentioned in button class)
   })
 
   it('.dblclick() - double click on a DOM element', () => {
