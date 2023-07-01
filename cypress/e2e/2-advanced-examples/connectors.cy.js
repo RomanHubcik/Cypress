@@ -7,7 +7,7 @@ context('Connectors', () => {
 
   it('.each() - iterate over an array of elements', () => {
     // https://on.cypress.io/each
-    cy.get('.connectors-each-ul>li')
+    cy.get('.connectors-each-ul>li') // iterating over the ordered (ol) or unordered (ul) list (li)
       .each(($el, index, $list) => {
         console.log($el, index, $list)
       })
@@ -18,7 +18,7 @@ context('Connectors', () => {
     cy.get('.connectors-its-ul>li')
       // calls the 'length' property yielding that value
       .its('length')
-      .should('be.gt', 2)
+      .should('be.gt', 2) // greater than
   })
 
   it('.invoke() - invoke a function on the current subject', () => {
@@ -29,7 +29,6 @@ context('Connectors', () => {
     // https://on.cypress.io/invoke
     // call the jquery method 'show' on the 'div.container'
     cy.get('.connectors-div').invoke('show')
-
     cy.get('.connectors-div').should('be.visible')
   })
 
