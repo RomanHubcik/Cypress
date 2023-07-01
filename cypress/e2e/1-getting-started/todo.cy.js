@@ -22,7 +22,8 @@ describe('example to-do app', () => {
     // We use the `first` and `last` functions
     // to get just the first and last matched elements individually,
     // and then perform an assertion with `should`.
-    cy.get('.todo-list > li').first().should('have.text', 'Pay electric bill')
+    cy.get('.todo-list > li').first().should('have.text', 'Pay electric bill') // check if first item in list is "Pay electric bill"
+    cy.get('.todo-list > li').first().invoke('text').should('have.length', 17) // check if "Pay electric bill has 17 letters"
     cy.get('.todo-list li').next().should('have.text', 'Walk the dog') // as there are only 2 elem. next should have same result as last
     cy.get('.todo-list > li').last().should('have.text', 'Walk the dog')
   })
@@ -43,8 +44,13 @@ describe('example to-do app', () => {
     // we can check number of items and what is the last one in a single statement.
     cy.get('.todo-list > li') // ">" or space = child item, "+" should be for sibling element
       .should('have.length', 4)
+      .first()
+      .should('have.text', 'Pay electric bill')
+
+    cy.get('.todo-list > li')
       .last()
-      .should('have.text', newItem2)
+      .should('have.text', newItem2) // check if item has right label
+      .invoke('text').should('have.length', 12) // check text length
   })
 
 
