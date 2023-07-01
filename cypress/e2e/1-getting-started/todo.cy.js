@@ -2,21 +2,14 @@
 
 // Welcome to Cypress!
 //
-// This spec file contains a variety of sample tests
-// for a todo list app that are designed to demonstrate
-// the power of writing tests in Cypress.
-//
-// To learn more about how Cypress works and
-// what makes it such an awesome testing tool,
-// please read our getting started guide:
+// To learn more about how Cypress works:
 // https://on.cypress.io/introduction-to-cypress
 
 describe('example to-do app', () => {
   beforeEach(() => {
     // Cypress starts out with a blank slate for each test
-    // so we must tell it to visit our website with the `cy.visit()` command.
-    // Since we want to visit the same URL at the start of all our tests,
-    // we include it in our beforeEach function so that it runs before each test
+    // tell it to visit our website with the `cy.visit()` command.
+    // include it in beforeEach function so that it runs before each test
     cy.visit('https://example.cypress.io/todo')
   })
 
@@ -26,75 +19,65 @@ describe('example to-do app', () => {
     // which are the two default items.
     cy.get('.todo-list li').should('have.length', 2)
 
-    // We can go even further and check that the default todos each contain
-    // the correct text. We use the `first` and `last` functions
+    // We use the `first` and `last` functions
     // to get just the first and last matched elements individually,
     // and then perform an assertion with `should`.
-    cy.get('.todo-list li').first().should('have.text', 'Pay electric bill')
-    cy.get('.todo-list li').last().should('have.text', 'Walk the dog')
+    cy.get('.todo-list > li').first().should('have.text', 'Pay electric bill')
+    cy.get('.todo-list li').next().should('have.text', 'Walk the dog') // as there are only 2 elem. next should have same result as last
+    cy.get('.todo-list > li').last().should('have.text', 'Walk the dog')
   })
 
   it('can add new todo items', () => {
     // We'll store our item text in a variable so we can reuse it
     const newItem = 'Feed the cat'
+    const newItem2 = 'Buy the book'
 
-    // Let's get the input element and use the `type` command to
-    // input our new list item. After typing the content of our item,
-    // we need to type the enter key as well in order to submit the input.
-    // This input has a data-test attribute so we'll use that to select the
-    // element in accordance with best practices:
-    // https://on.cypress.io/selecting-elements
+    // get the input element and use the `type` to input new list item. 
+    // need to type the enter key as well in order to submit the input.
+    // best practices: https://on.cypress.io/selecting-elements
     cy.get('[data-test=new-todo]').type(`${newItem}{enter}`)
+    cy.get('[data-test=new-todo]').type(`${newItem2}{enter}`)
 
-    // Now that we've typed our new item, let's check that it actually was added to the list.
-    // Since it's the newest item, it should exist as the last element in the list.
-    // In addition, with the two default items, we should have a total of 3 elements in the list.
-    // Since assertions yield the element that was asserted on,
-    // we can chain both of these assertions together into a single statement.
-    cy.get('.todo-list li')
-      .should('have.length', 3)
+    // check if values were actually added to the list.
+    // newest item should exist as the last element in the list.
+    // we can check number of items and what is the last one in a single statement.
+    cy.get('.todo-list > li') // ">" or space = child item, "+" should be for sibling element
+      .should('have.length', 4)
       .last()
-      .should('have.text', newItem)
+      .should('have.text', newItem2)
   })
 
-  it('can check off an item as completed', () => {
-    // In addition to using the `get` command to get an element by selector,
-    // we can also use the `contains` command to get an element by its contents.
-    // However, this will yield the <label>, which is lowest-level element that contains the text.
-    // In order to check the item, we'll find the <input> element for this <label>
-    // by traversing up the dom to the parent element. From there, we can `find`
-    // the child checkbox <input> element and use the `check` command to check it.
-    cy.contains('Pay electric bill')
-      .parent()
-      .find('input[type=checkbox]')
-      .check()
 
-    // Now that we've checked the button, we can go ahead and make sure
-    // that the list element is now marked as completed.
-    // Again we'll use `contains` to find the <label> element and then use the `parents` command
-    // to traverse multiple levels up the dom until we find the corresponding <li> element.
+  it('can check off an item as completed', () => {
+    // `get` command to get an element by selector,
+    // `contains` command to get an element by its contents.
+    // traverse DOM and find parent/input
+    cy.contains('Pay electric bill')
+      .parent()  // one level up from label to the input type = checkbox
+      .find('input[type=checkbox]')
+      .check() // check the checkbox
+      .should('be.checked') // assert the checkbox is checked
+
+    // check if element is marked as completed (traverse DOM)
     // Once we get that element, we can assert that it has the completed class.
     cy.contains('Pay electric bill')
-      .parents('li')
+      .parents('li') // traverse from label up in DOM till find "li" - many levels up
       .should('have.class', 'completed')
   })
 
   context('with a checked task', () => {
     beforeEach(() => {
-      // We'll take the command we used above to check off an element
-      // Since we want to perform multiple tests that start with checking
-      // one element, we put it in the beforeEach hook
-      // so that it runs at the start of every test.
+      // nested beforeEach - to have always checked this item before this set of tests starts
       cy.contains('Pay electric bill')
         .parent()
         .find('input[type=checkbox]')
-        .check()
+        .check()  // use .uncheck() to simply uncheck the checkbox
     })
 
     it('can filter for uncompleted tasks', () => {
-      // We'll click on the "active" button in order to
-      // display only incomplete items
-      cy.contains('Active').click()
+      // click on the "active" button (display only incomplete items)
+      cy.contains('Active').click() // find button only by "contains"
+        .wait(2000)
 
       // After filtering, we can assert that there is only the one
       // incomplete item in the list.
