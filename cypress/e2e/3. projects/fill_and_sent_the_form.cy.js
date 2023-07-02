@@ -19,5 +19,6 @@ describe('Testing the simple form', () => {
     // cy.get('input[name=email]').type('email@address.com') 
     cy.get('textarea[name=message]').type('Write some comments here.')
     cy.get('input.contact_button[type=submit]').click()
+    cy.screenshot('error-message')
   });
 });
