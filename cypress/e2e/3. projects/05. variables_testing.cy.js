@@ -33,7 +33,7 @@ describe('Working with variables', () => {
             cy.log("Found header text: " + $headerText.text())
             expect($headerText.text()).is.eq('Makeup')
 
-        cy.get(".maintext").should('have.text', 'Makeup') // works too
+        cy.get("h1 .maintext").should('have.text', 'Makeup') // works too
 
         })
 
