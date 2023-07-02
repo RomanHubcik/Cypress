@@ -13,6 +13,7 @@ describe('Testing the simple form', () => {
     cy.get('input.contact_button[type=submit]').click()
   });
 
+  // use "it.only('Only this test', () => {... to run only the specific test
   it('Test the negative scenario', () => {
     cy.get('input[name=first_name]').type('This is the first name') 
     cy.get('input[name=last_name]').type('This is the last name') 
