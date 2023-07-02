@@ -6,7 +6,7 @@ describe('Testing the simple form', () => {
   })
 
   it('Test the positive scenario', () => {
-    cy.get('input[name=first_name]').type('This is the first name') // use selector to define locator that points to element
+    cy.get('input[name=first_name]').type('This is the first name') // use the selector to define locator that points to element
     cy.get('input[name=last_name]').type('This is the last name') 
     cy.get('input[name=email]').type('email@address.com') 
     cy.get('textarea[name=message]').type('Write some comments here.')

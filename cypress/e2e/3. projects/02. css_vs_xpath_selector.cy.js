@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('Testing the simple form', () => {
+describe('Fill form using CSS and XPath', () => {
     beforeEach(() => {
       cy.visit('https://automationteststore.com/')
     })  
