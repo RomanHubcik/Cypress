@@ -42,7 +42,7 @@ describe('example to-do app', () => {
     // check if values were actually added to the list.
     // newest item should exist as the last element in the list.
     // we can check number of items and what is the last one in a single statement.
-    cy.get('.todo-list > li') // ">" or space = child item, "+" should be for sibling element
+    cy.get('.todo-list > li') // ">" = child item "space" = descendant item, "+" should be for sibling element
       .should('have.length', 4)
       .first()
       .should('have.text', 'Pay electric bill')
