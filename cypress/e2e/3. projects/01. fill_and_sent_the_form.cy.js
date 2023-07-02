@@ -1,5 +1,10 @@
 /// <reference types="cypress" />
 
+// use this cdm in terminal to run one specified test --> npx cypress run --spec "cypress/e2e/3. projects/04. form_assertions.cy.js"
+// use this cmd in terminal to run all tests in the folder --> npx cypress run --spec "cypress/e2e/3. projects/**/*" 
+// use this cmd in terminal to run all tests --> npx cypress run 
+
+
 describe('Testing the simple form', () => {
   beforeEach(() => {
     cy.visit('http://webdriveruniversity.com/Contact-Us/contactus.html')
