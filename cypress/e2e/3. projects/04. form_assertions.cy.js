@@ -19,7 +19,10 @@ describe('Testing the simple form', () => {
     cy.get('input[name=last_name]').type('This is the last name') 
     cy.get('input[name=email]').type('email@address.com') 
     cy.get('textarea[name=message]').type('Write some comments here.')
-    cy.get('input.contact_button[type=submit]').click()
+    cy.get('input.contact_button[type=submit]').click().then(function(itemText){
+      console.log('Output of the previous function - click to submit button:' + itemText.text) // output on the web console
+      cy.log('Output of the previous function - click to submit button:' + itemText.text) //output on the cypress test page
+    })
     cy.get('h1').should('have.text', 'Thank You for your Message!')
   });
 
