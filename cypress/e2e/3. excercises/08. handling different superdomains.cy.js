@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('How to handle link opened in new windows', () => {
+describe('How to handle different superdomains', () => {
 
   it('Test http and https', () => {
     cy.visit('http://webdriveruniversity.com')

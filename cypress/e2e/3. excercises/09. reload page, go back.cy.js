@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('How to handle link opened in new windows', () => {
+describe('Reload page, go back, go forward', () => {
   beforeEach(() => {
     cy.visit('http://webdriveruniversity.com')
   })
