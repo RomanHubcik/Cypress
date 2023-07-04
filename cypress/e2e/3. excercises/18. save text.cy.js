@@ -1,10 +1,10 @@
 /// <reference types="cypress" />
 
 describe('Test copy text', () => {
-  beforeEach(() => {
-    cy.visit('https://www.mthiker.sk/clanky')
-    //cy.get('#data-table').invoke('removeAttr', 'target').click({force:true})
-  })
+  // beforeEach(() => {
+  //   cy.visit('https://www.mthiker.sk/clanky')
+  //   //cy.get('#data-table').invoke('removeAttr', 'target').click({force:true})
+  // })
 
   // it('Test copy text', () => {
   //   cy.get('.ml-sm-2 > .btn').then(($el) =>{
@@ -35,12 +35,27 @@ describe('Test copy text', () => {
   //   });
   // });
 
-  it('Accept cookies', () => {
+  it('Mtbiker info', () => {
+
+    cy.visit('https://www.mtbiker.sk/clanky')
     if (cy.get('.ml-sm-2 > .btn').contains('Súhlasím')) {
       cy.get('.ml-sm-2 > .btn').click()
     }
     cy.get('h2').invoke('text').then(($el) => {
-      cy.writeFile('saveH2.htm', $el)
+      cy.writeFile('mtbiker.htm', $el + '\n',  { flag: 'a+' })
+      //cy.readFile('saveH2.htm', '/br asdf', {"append": true})
+    })
+  });
+
+  it('Mthiker info', () => {
+
+    cy.visit('https://www.mthiker.sk/clanky')
+    if (cy.get('.ml-sm-2 > .btn').contains('Súhlasím')) {
+      cy.get('.ml-sm-2 > .btn').click()
+    }
+    cy.get('h2').invoke('text').then(($el) => {
+      cy.writeFile('mtbiker.htm', $el + '\n',  { flag: 'a+' })
+      //cy.readFile('saveH2.htm', '/br asdf', {"append": true})
     })
   });
 
